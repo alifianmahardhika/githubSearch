@@ -1,8 +1,11 @@
 package com.example.githubusersub.db
 
+import android.net.Uri
 import android.provider.BaseColumns
 
-internal class DatabaseContract {
+object DatabaseContract {
+    const val AUTHORITY = "com.example.githubusersub"
+    const val SCHEME = "content"
     internal class UserColumns : BaseColumns{
         companion object {
             const val Table_name = "favorite_users"
@@ -16,5 +19,10 @@ internal class DatabaseContract {
             const val Column_followers = "followers"
             const val Column_following = "following"
         }
+
+        val content_uri: Uri = Uri.Builder().scheme(SCHEME)
+            .authority(AUTHORITY)
+            .appendPath(Table_name)
+            .build()
     }
 }

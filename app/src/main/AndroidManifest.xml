@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".provider.GithubSearchProvider"
+            android:authorities="com.example.githubusersub"
+            android:enabled="true"
+            android:exported="true"></provider>
+
         <activity
             android:name=".SettingPreferencesActivity"
             android:label="@string/setting_act_title"
@@ -54,9 +60,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver"
+        <receiver
+            android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>
