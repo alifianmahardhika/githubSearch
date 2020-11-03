@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Github User Finder</string>
+    <string name="name">Name</string>
+    <string name="location">Location</string>
+    <string name="company">Company</string>
+    <string name="repository">Repository</string>
+    <string name="username">User Name</string>
+    <string name="img_desc">Image Content Description</string>
+    <string name="tv_text">Text</string>
+    <string name="search_hint">Search User</string>
+    <string name="object_received">Object Received</string>
+    <string name="share_button">Share Picture</string>
+    <string name="search">Search User</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_tab_followers">Followers</string>
+    <string name="content_tab_following">Following</string>
+    <string name="change_language_settings">Change Language Settings</string>
+    <string name="detailname">Github User Detail</string>
+    <string name="usermanual">Click on Search Icon</string>
+    <string name="favorite_user_list">List of Favorite User</string>
+    <string name="key_reminder">Daily Reminder</string>
+    <string name="reminder_title">Set Alarm at 9am</string>
+    <string name="reminder_off">Repeated Alarm Cancelled</string>
+    <string name="reminder_on">Repeated Alarm Set</string>
+    <string name="setting_act_title">Reminder Settings</string>
+</resources>

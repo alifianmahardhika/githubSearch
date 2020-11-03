@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pencari Pengguna Github</string>
+    <string name="name">Nama</string>
+    <string name="location">Lokasi</string>
+    <string name="company">Perusahaan</string>
+    <string name="repository">Repo</string>
+    <string name="username">Nama Pengguna</string>
+    <string name="img_desc">Deskripsi Gambar</string>
+    <string name="tv_text">Teks</string>
+    <string name="search_hint">Mencari Pengguna</string>
+    <string name="object_received">Objek Diterima</string>
+    <string name="share_button">Berbagi Gambar</string>
+    <string name="search">Mencari Pengguna</string>
+    <string name="hello_blank_fragment">Halo Fragment Kosong</string>
+    <string name="content_tab_followers">Pengikut</string>
+    <string name="content_tab_following">Mengikuti</string>
+    <string name="change_language_settings">Ubah Seting Bahasa</string>
+    <string name="detailname">Rincian Pengguna Github</string>
+    <string name="usermanual">Silahkan Klik Ikon Cari</string>
+    <string name="favorite_user_list">Daftar Pemakai Favorit</string>
+    <string name="key_reminder">Pengingat Harian</string>
+    <string name="reminder_title">Atur Alarm Pukul 9am</string>
+    <string name="setting_act_title">Atur Pengingat</string>
+    <string name="reminder_off">Alarm Berulang Mati</string>
+    <string name="reminder_on">Alarm Berulang Nyala</string>
+</resources>
