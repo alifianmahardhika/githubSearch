@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <permission android:name="com.example.githubusersub.READ_DATABASE" android:protectionLevel="normal"/>
+    <permission android:name="com.example.githubusersub.WRITE_DATABASE" android:protectionLevel="normal"/>
+
     <application
         android:name=".StethoApp"
         android:allowBackup="true"
@@ -14,6 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".provider.GithubSearchProvider"
+            android:authorities="com.example.githubusersub"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.example.githubusersub.READ_DATABASE"
+            android:writePermission="com.example.githubusersub.WRITE_DATABASE">
+        </provider>
+
         <activity
             android:name=".SettingPreferencesActivity"
             android:label="@string/setting_act_title"
@@ -54,9 +66,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver"
+        <receiver
+            android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -51,12 +51,12 @@ class UserHelper (context: Context) {
         )
     }
 
-    fun queryByName(name: String): Cursor{
+    fun queryById(id: String): Cursor{
         return database.query(
             db_table,
             null,
             "$Column_name = ?",
-            arrayOf(name),
+            arrayOf(id),
             null,
             null,
             null,
