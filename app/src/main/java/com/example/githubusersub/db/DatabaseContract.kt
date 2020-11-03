@@ -6,7 +6,7 @@ import android.provider.BaseColumns
 object DatabaseContract {
     const val AUTHORITY = "com.example.githubusersub"
     const val SCHEME = "content"
-    internal class UserColumns : BaseColumns{
+    class UserColumns : BaseColumns{
         companion object {
             const val Table_name = "favorite_users"
             const val Column_Id = "id"
@@ -18,11 +18,11 @@ object DatabaseContract {
             const val Column_company = "company"
             const val Column_followers = "followers"
             const val Column_following = "following"
-        }
 
-        val content_uri: Uri = Uri.Builder().scheme(SCHEME)
-            .authority(AUTHORITY)
-            .appendPath(Table_name)
-            .build()
+            val content_uri: Uri = Uri.Builder().scheme(SCHEME)
+                .authority(AUTHORITY)
+                .appendPath(Table_name)
+                .build()
+        }
     }
 }
