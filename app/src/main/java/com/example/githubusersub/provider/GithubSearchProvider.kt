@@ -20,7 +20,7 @@ class GithubSearchProvider : ContentProvider() {
         private lateinit var userHelper: UserHelper
         init {
             sUriMatcher.addURI(AUTHORITY, Table_name, user)
-            sUriMatcher.addURI(AUTHORITY, "$Table_name/#", user_id)
+            sUriMatcher.addURI(AUTHORITY, "$Table_name/*", user_id)
         }
     }
 
@@ -62,7 +62,7 @@ class GithubSearchProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val deleted: Int = when (user_id) {
-            sUriMatcher.match(uri) -> userHelper.removeByName(uri.lastPathSegment.toString())
+            sUriMatcher.match(uri) -> userHelper.removeByLogin(uri.lastPathSegment.toString())
             else -> 0
         }
         context?.contentResolver?.notifyChange(content_uri, null)

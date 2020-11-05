@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.Column_Id
+import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.Column_loginName
 import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.Column_name
 import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.Table_name
 import java.sql.SQLException
@@ -72,7 +73,7 @@ class UserHelper (context: Context) {
         return database.update(db_table, values, "$Column_Id = ?", arrayOf(id))
     }
 
-    fun removeByName(name: String): Int{
-        return database.delete(db_table, "$Column_name = '$name'", null)
+    fun removeByLogin(loginName: String): Int{
+        return database.delete(db_table, "$Column_loginName = '$loginName'", null)
     }
 }

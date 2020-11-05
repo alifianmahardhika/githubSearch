@@ -17,4 +17,16 @@ object MappingHelper {
         }
         return userList
     }
+
+    fun mapCursorToObject(userCursor: Cursor?): User{
+        var user = User()
+        userCursor?.apply {
+            moveToFirst()
+            val avatar = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.Column_avatarUrl))
+            val loginName = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.Column_loginName))
+            val name = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.Column_name))
+            user = User(avatar, loginName, name)
+        }
+        return user
+    }
 }

@@ -2,9 +2,9 @@ package com.example.githubusersub
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubusersub.db.DatabaseContract
+import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.content_uri
 import com.example.githubusersub.db.UserHelper
 import com.example.githubusersub.helper.MappingHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,7 +21,6 @@ import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.activity_favorite_user.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -32,18 +32,13 @@ class DetailActivity : AppCompatActivity() {
         const val extraUser = "extra-user"
         private val TAG = DetailActivity::class.java.simpleName
         const val EXTRA_POSITION = "extra_position"
-        const val REQUEST_ADD = 100
         const val RESULT_ADD = 101
-        const val REQUEST_UPDATE = 200
-        const val RESULT_UPDATE = 201
-        const val RESULT_DELETE = 301
-        const val ALERT_DIALOG_CLOSE = 10
-        const val ALERT_DIALOG_DELETE = 20
     }
 
     private val position: Int = 0
     private val detail = User()
     private lateinit var userHelper: UserHelper
+    private lateinit var uriwithName: Uri
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -81,8 +76,8 @@ class DetailActivity : AppCompatActivity() {
             values.put(DatabaseContract.UserColumns.Column_repository, detail.repository)
             values.put(DatabaseContract.UserColumns.Column_loginName, detail.loginName)
 
-            val result = userHelper.insertData(values)
-            if (result > 0){
+            val result = contentResolver.insert(content_uri, values)
+            if (result != null) {
                 setResult(RESULT_ADD, intent)
                 showSnackBar("User Added to Favorite")
             }
@@ -91,8 +86,9 @@ class DetailActivity : AppCompatActivity() {
         fun removeFromFavorite() {
             userHelper = UserHelper.getHelperInstance(applicationContext)
             userHelper.openDatabase()
-            val result = detail.name?.let { it1 -> userHelper.removeByName(it1) }
-            if (result != null) {
+            uriwithName = Uri.parse("$content_uri/${detail.loginName}")
+            val result = contentResolver.delete(uriwithName, null, null)
+            if (result > 0) {
                 showSnackBar("User Removed from Favorite")
             }
         }
@@ -102,7 +98,7 @@ class DetailActivity : AppCompatActivity() {
             userHelper.openDatabase()
             GlobalScope.launch(Dispatchers.Main) {
                 val deferredUsers = async(Dispatchers.IO) {
-                    val cursor = userHelper.queryData()
+                    val cursor = contentResolver?.query(content_uri, null, null, null, null)
                     MappingHelper.mapCursorToArrayList(cursor)
                 }
                 val users = deferredUsers.await()

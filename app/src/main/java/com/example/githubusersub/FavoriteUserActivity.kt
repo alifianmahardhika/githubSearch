@@ -1,11 +1,15 @@
 package com.example.githubusersub
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.database.ContentObserver
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.content_uri
 import com.example.githubusersub.db.UserHelper
 import com.example.githubusersub.helper.MappingHelper
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +20,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FavoriteUserActivity : AppCompatActivity() {
+
+    companion object {
+        private const val EXTRA_STATE = "EXTRA_STATE"
+    }
+
     private lateinit var userHelper: UserHelper
     private lateinit var rvFav: RecyclerView
     private lateinit var listAdapter: ListAdapter
@@ -28,15 +37,32 @@ class FavoriteUserActivity : AppCompatActivity() {
         rvFav = findViewById(R.id.rv_fav)
         rvFav.setHasFixedSize(true)
 
-        userHelper = UserHelper.getHelperInstance(applicationContext)
-        userHelper.openDatabase()
-        showUserFavorite()
-        loadUserAsync()
+        showUserFavorite(listUser)
+
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+
+        val myObserver = object : ContentObserver(handler){
+            override fun onChange(selfChange: Boolean) {
+                loadUserAsync()
+            }
+        }
+
+        contentResolver.registerContentObserver(content_uri, true, myObserver)
+        if (savedInstanceState == null){
+            loadUserAsync()
+        } else {
+            val list = savedInstanceState.getParcelableArrayList<User>(EXTRA_STATE)
+            if (list != null) {
+                showUserFavorite(list)
+            }
+        }
     }
 
-    private fun showUserFavorite() {
+    private fun showUserFavorite(users: ArrayList<User>) {
         rvFav.layoutManager = LinearLayoutManager(this)
-        listAdapter = ListAdapter(listUser)
+        listAdapter = ListAdapter(users)
         rvFav.adapter = listAdapter
 
         listAdapter.setOnItemClicked(object : ListAdapter.OnItemClickCallback {
@@ -47,17 +73,19 @@ class FavoriteUserActivity : AppCompatActivity() {
     }
 
     private fun loadUserAsync() {
+        userHelper = UserHelper.getHelperInstance(applicationContext)
+        userHelper.openDatabase()
         GlobalScope.launch(Dispatchers.Main) {
             fav_progress.visibility = View.VISIBLE
             val deferredUsers = async(Dispatchers.IO) {
-                val cursor = userHelper.queryData()
+                val cursor = contentResolver?.query(content_uri,null,null,null,null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             fav_progress.visibility = View.INVISIBLE
             val users = deferredUsers.await()
             if (users.size > 0){
                 listUser = users
-                showUserFavorite()
+                showUserFavorite(listUser)
             } else {
                 listUser = ArrayList()
                 showSnackbarMessage("Tidak ada data")
