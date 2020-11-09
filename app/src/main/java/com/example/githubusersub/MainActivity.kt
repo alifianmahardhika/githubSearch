@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubusersub.db.UserHelper
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -38,6 +39,12 @@ class MainActivity : AppCompatActivity() {
         rvUser.setHasFixedSize(true)
 
         showUserList()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val userHelper = UserHelper.getHelperInstance(applicationContext)
+        userHelper.closeDatabase()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
