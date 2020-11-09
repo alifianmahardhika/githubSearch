@@ -1,4 +1,4 @@
-package com.example.githubusersub
+package com.example.githubconsumerapp
 
 import android.content.Intent
 import android.database.ContentObserver
@@ -9,8 +9,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.content_uri
-import com.example.githubusersub.helper.MappingHelper
+import com.example.githubconsumerapp.db.DatabaseContract.UserColumns.Companion.content_uri
+import com.example.githubconsumerapp.helper.MappingHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_favorite_user.*
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +23,7 @@ class FavoriteUserActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
     }
+
     private lateinit var rvFav: RecyclerView
     private lateinit var listAdapter: ListAdapter
     private var listUser = ArrayList<User>()
@@ -35,17 +36,14 @@ class FavoriteUserActivity : AppCompatActivity() {
         rvFav.setHasFixedSize(true)
 
         showUserFavorite(listUser)
-
         val handlerThread = HandlerThread("DataObserver")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
-
         val myObserver = object : ContentObserver(handler){
             override fun onChange(selfChange: Boolean) {
                 loadUserAsync()
             }
         }
-
         contentResolver.registerContentObserver(content_uri, true, myObserver)
         if (savedInstanceState == null){
             loadUserAsync()
@@ -83,8 +81,7 @@ class FavoriteUserActivity : AppCompatActivity() {
                 showUserFavorite(listUser)
             } else {
                 listUser = ArrayList()
-                val message = resources.getString(R.string.nodata)
-                showSnackbarMessage(message)
+                showSnackbarMessage("Tidak ada data")
             }
         }
     }

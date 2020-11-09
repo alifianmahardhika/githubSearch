@@ -23,4 +23,7 @@
     <string name="reminder_off">Repeated Alarm Cancelled</string>
     <string name="reminder_on">Repeated Alarm Set</string>
     <string name="setting_act_title">Reminder Settings</string>
+    <string name="nodata">Data Empty</string>
+    <string name="user_added">User Added to Favorite</string>
+    <string name="user_removed">User Removed from Favorite</string>
 </resources>

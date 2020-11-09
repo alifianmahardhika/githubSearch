@@ -1,4 +1,4 @@
-package com.example.githubusersub
+package com.example.githubconsumerapp
 
 import android.content.ContentValues
 import android.content.Intent
@@ -11,9 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.githubusersub.db.DatabaseContract
-import com.example.githubusersub.db.DatabaseContract.UserColumns.Companion.content_uri
-import com.example.githubusersub.helper.MappingHelper
+import com.example.githubconsumerapp.db.DatabaseContract
+import com.example.githubconsumerapp.db.DatabaseContract.UserColumns.Companion.content_uri
+import com.example.githubconsumerapp.helper.MappingHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.loopj.android.http.AsyncHttpClient
@@ -75,16 +75,14 @@ class DetailActivity : AppCompatActivity() {
             val result = contentResolver.insert(content_uri, values)
             if (result != null) {
                 setResult(RESULT_ADD, intent)
-                val message = resources.getString(R.string.user_added)
-                showSnackBar(message)
+                showSnackBar("User Added to Favorite")
             }
         }
 
         fun removeFromFavorite() {
             uriwithName = Uri.parse("$content_uri/${detail.loginName}")
             val result = contentResolver.delete(uriwithName, null, null)
-            if (result > 0){
-                val message = resources.getString(R.string.user_removed)
+            if (result > 0) {
                 showSnackBar("User Removed from Favorite")
             }
         }

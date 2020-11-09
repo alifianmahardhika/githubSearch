@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pencari Pengguna Github</string>
+    <string name="app_name">Aplikasi Pengguna</string>
     <string name="name">Nama</string>
     <string name="location">Lokasi</string>
     <string name="company">Perusahaan</string>
@@ -24,7 +24,4 @@
     <string name="setting_act_title">Atur Pengingat</string>
     <string name="reminder_off">Alarm Berulang Mati</string>
     <string name="reminder_on">Alarm Berulang Nyala</string>
-    <string name="nodata">Data Empty</string>
-    <string name="user_added">Pengguna ditambahkan ke Favorit</string>
-    <string name="user_removed">Pengguna dihilangkan dari Favorit</string>
 </resources>
